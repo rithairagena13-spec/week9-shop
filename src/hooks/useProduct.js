@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { fetchProduct } from '../api/products'
 
@@ -8,12 +7,7 @@ export default function useProduct(id) {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!id) {
-      setProduct(null)
-      setLoading(false)
-      setError(null)
-      return
-    }
+    if (!id) return
 
     const controller = new AbortController()
 
