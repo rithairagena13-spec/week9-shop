@@ -1,9 +1,10 @@
 
 import client from './client'
 
-export const fetchProducts = async ({ limit = 12, skip = 0 } = {}) => {
+export const fetchProducts = async ({ limit = 12, skip = 0, signal } = {}) => {
   const response = await client.get('/products', {
     params: { limit, skip },
+    signal,
   })
   return response.data
 }
@@ -18,10 +19,17 @@ export const fetchCategories = async () => {
   return response.data
 }
 
-export const fetchProductsByCategory = async (category, { limit = 12, skip = 0 } = {}) => {
-  const response = await client.get(`/products/category/${encodeURIComponent(category)}`, {
-    params: { limit, skip },
-  })
+export const fetchProductsByCategory = async (
+  category,
+  { limit = 12, skip = 0, signal } = {}
+) => {
+  const response = await client.get(
+    `/products/category/${encodeURIComponent(category)}`,
+    {
+      params: { limit, skip },
+      signal,
+    }
+  )
   return response.data
 }
 
