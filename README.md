@@ -1,19 +1,122 @@
-# React + Vite
+# Mini Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive mini shopping application built with React, Axios, and Tailwind CSS. The application fetches product data from the DummyJSON API and provides an interactive shopping experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Product Display:** Fetch and display products from the DummyJSON API.
+- **Categories:** Browse products by category.
+- **Pagination:** Navigate through products using page controls.
+- **URL Synchronization:** Keep category and page selections synchronized with URL query parameters.
+- **Add Products:** Submit a form to create new products using POST requests.
+- **Delete Products:** Remove products using optimistic UI updates with rollback on failure.
+- **Loading and Error States:** Display feedback while data is loading or when requests fail.
+- **Reusable Hooks:** Manage product, category, and URL state with custom React hooks.
+- **Responsive Design:** A clean interface that adapts to different screen sizes.
 
-## React Compiler
+## Technologies Used
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- React
+- JavaScript
+- Axios
+- Tailwind CSS
+- Vite
+- Lucide React
+- DummyJSON API
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## API Integration
 
-## Expanding the ESLint configuration
+This project uses the [DummyJSON API](https://dummyjson.com/) for product data.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Main endpoints:
+
+| Endpoint | Purpose |
+|---|---|
+| `/products` | Fetch products |
+| `/products/:id` | Fetch a single product |
+| `/products/categories` | Fetch categories |
+| `/products/category/:category` | Filter products by category |
+| `/products/search?q=` | Search products |
+| `/products/add` | Add a product |
+| `/products/:id` | Delete a product |
+
+**Note:** DummyJSON simulates product creation and deletion. Changes are not permanently saved on the server.
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/rithairagena13-spec/week9-shop.git
+```
+
+### 2. Navigate into the project
+
+```bash
+cd week9-shop
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+Open the local URL displayed in your terminal to view the application.
+
+## Project Structure
+
+```text
+src/
+├── api/
+│   ├── client.js
+│   └── products.js
+├── hooks/
+│   ├── useProducts.js
+│   ├── useProduct.js
+│   ├── useCategories.js
+│   └── useUrlState.js
+├── components/
+│   ├── Navbar.jsx
+│   ├── CategoryList.jsx
+│   ├── ProductCard.jsx
+│   ├── ProductList.jsx
+│   ├── AddProductForm.jsx
+│   ├── Loading.jsx
+│   └── ErrorMessage.jsx
+├── pages/
+│   └── HomePage.jsx
+├── App.jsx
+├── main.jsx
+└── index.css
+```
+
+## Learning Objectives
+
+This project demonstrates practical experience with:
+
+- Creating reusable Axios instances.
+- Organizing API requests into service functions.
+- Using React `useEffect` and `useState`.
+- Creating custom data-fetching hooks.
+- Handling asynchronous requests and cancellation.
+- Loading independent data in parallel.
+- Synchronizing application state with URL parameters.
+- Managing POST and DELETE requests.
+- Implementing optimistic UI updates and rollback.
+
+## Author
+
+**Ritha IRAGENA**
+
+GitHub: [rithairagena13-spec](https://github.com/rithairagena13-spec)
+
+---
+
+*Built as part of the Week 9 React Data Fetching and Axios classwork.*
