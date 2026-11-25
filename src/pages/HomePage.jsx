@@ -4,6 +4,7 @@ import { createProduct, deleteProduct } from '../api/products'
 import useProducts from '../hooks/useProducts'
 import useCategories from '../hooks/useCategories'
 import useUrlState from '../hooks/useUrlState'
+import useDelayedFlag from '../hooks/useDelayedFlag'
 import Navbar from '../components/Navbar'
 import CategoryList from '../components/CategoryList'
 import ProductList from '../components/ProductList'
@@ -41,6 +42,9 @@ export default function HomePage() {
   const [adding, setAdding] = useState(false)
   const [mutationError, setMutationError] = useState(null)
 
+  const showProductsSkeleton = useDelayedFlag(productsLoading)
+  const showCategoriesSkeleton = useDelayedFlag(categoriesLoading)
+
   const totalPages = Math.max(1, Math.ceil(total / LIMIT))
 
   const handleCategorySelect = (category) => {
@@ -60,7 +64,6 @@ export default function HomePage() {
 
     try {
       const newProduct = await createProduct(productData)
-
       setProducts((current) => [newProduct, ...current].slice(0, LIMIT))
     } catch (err) {
       setMutationError(err.message || 'Failed to add product')
@@ -127,6 +130,7 @@ export default function HomePage() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A98250]">
                 Curated for everyday
               </p>
+
               <h2 className="mt-1 text-2xl font-bold">
                 {selectedCategory
                   ? selectedCategory.replaceAll('-', ' ')
@@ -143,7 +147,7 @@ export default function HomePage() {
           {categoriesError && <ErrorMessage message={categoriesError} />}
           {mutationError && <ErrorMessage message={mutationError} />}
 
-          {productsLoading || categoriesLoading ? (
+          {showProductsSkeleton || showCategoriesSkeleton ? (
             <ProductGridSkeleton />
           ) : (
             <>
