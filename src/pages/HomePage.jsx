@@ -11,6 +11,7 @@ import ProductList from '../components/ProductList'
 import AddProductForm from '../components/AddProductForm'
 import ErrorMessage from '../components/ErrorMessage'
 import ProductGridSkeleton from '../components/ProductGridSkeleton'
+import Loading from '../components/Loading'
 
 const LIMIT = 12
 
@@ -45,6 +46,7 @@ export default function HomePage() {
 
   const showProductsSkeleton = useDelayedFlag(productsLoading)
   const showCategoriesSkeleton = useDelayedFlag(categoriesLoading)
+  const showCategoriesSpinner = useDelayedFlag(categoriesLoading, 300)
 
   const totalPages = Math.max(1, Math.ceil(total / LIMIT))
 
@@ -119,11 +121,15 @@ export default function HomePage() {
           <div className="pointer-events-none absolute -right-10 -top-14 h-52 w-52 rounded-full border border-white/10" />
         </section>
 
-        <CategoryList
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={handleCategorySelect}
-        />
+        {categoriesLoading && showCategoriesSpinner ? (
+          <Loading message="Loading categories..." />
+        ) : (
+          <CategoryList
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={handleCategorySelect}
+          />
+        )}
 
         <section id="products" className="space-y-6">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
