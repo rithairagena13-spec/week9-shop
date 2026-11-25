@@ -26,6 +26,7 @@ export default function HomePage() {
     setProducts,
     total,
     loading: productsLoading,
+    refreshing,
     error: productsError,
   } = useProducts({
     category: selectedCategory,
@@ -147,14 +148,21 @@ export default function HomePage() {
           {categoriesError && <ErrorMessage message={categoriesError} />}
           {mutationError && <ErrorMessage message={mutationError} />}
 
-          {showProductsSkeleton || showCategoriesSkeleton ? (
+          {productsLoading && !products.length && showProductsSkeleton ? (
             <ProductGridSkeleton />
           ) : (
             <>
-              <ProductList
-                products={products}
-                onDelete={handleDeleteProduct}
-              />
+              <div
+                className={`transition-opacity duration-300 ${
+                  refreshing ? 'opacity-50' : 'opacity-100'
+                }`}
+                aria-busy={refreshing}
+              >
+                <ProductList
+                  products={products}
+                  onDelete={handleDeleteProduct}
+                />
+              </div>
 
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-4 pt-6">
@@ -180,6 +188,10 @@ export default function HomePage() {
                 </div>
               )}
             </>
+          )}
+
+          {showCategoriesSkeleton && (
+            <p className="sr-only">Loading categories...</p>
           )}
         </section>
 
