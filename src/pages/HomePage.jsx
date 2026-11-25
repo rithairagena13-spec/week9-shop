@@ -8,8 +8,8 @@ import Navbar from '../components/Navbar'
 import CategoryList from '../components/CategoryList'
 import ProductList from '../components/ProductList'
 import AddProductForm from '../components/AddProductForm'
-import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
+import ProductGridSkeleton from '../components/ProductGridSkeleton'
 
 const LIMIT = 12
 
@@ -144,7 +144,7 @@ export default function HomePage() {
           {mutationError && <ErrorMessage message={mutationError} />}
 
           {productsLoading || categoriesLoading ? (
-            <Loading message="Loading your shop..." />
+            <ProductGridSkeleton />
           ) : (
             <>
               <ProductList
