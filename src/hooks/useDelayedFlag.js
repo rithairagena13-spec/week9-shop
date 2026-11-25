@@ -5,10 +5,7 @@ export default function useDelayedFlag(value, delay = 300) {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    if (!value) {
-      setShow(false)
-      return
-    }
+    if (!value) return
 
     const timer = setTimeout(() => {
       setShow(true)
@@ -17,5 +14,5 @@ export default function useDelayedFlag(value, delay = 300) {
     return () => clearTimeout(timer)
   }, [value, delay])
 
-  return show
+  return value && show
 }
