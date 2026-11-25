@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   fetchProducts,
   fetchProductsByCategory,
@@ -12,14 +12,16 @@ export default function useProducts({ category = '', limit = 12, skip = 0 } = {}
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState(null)
 
+  const hasPreviousProducts = useRef(false)
+
   useEffect(() => {
     const controller = new AbortController()
 
     const loadProducts = async () => {
-      const hasPreviousProducts = products.length > 0
+      const hasProducts = hasPreviousProducts.current
 
-      setLoading(!hasPreviousProducts)
-      setRefreshing(hasPreviousProducts)
+      setLoading(!hasProducts)
+      setRefreshing(hasProducts)
       setError(null)
 
       try {
@@ -38,6 +40,7 @@ export default function useProducts({ category = '', limit = 12, skip = 0 } = {}
         if (!controller.signal.aborted) {
           setProducts(data.products)
           setTotal(data.total)
+          hasPreviousProducts.current = data.products.length > 0
         }
       } catch (err) {
         if (
